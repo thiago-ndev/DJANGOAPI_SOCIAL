@@ -2,11 +2,40 @@ from django.db import models
 
 # Create your models here.
 
+class Login:
+    def __init__(self, email=None, senha=None):
+        self.email = email
+        self.senha = senha
+
+    def __str__(self):
+        return '{}, {}'.format(self.senha, self.email)
+
+    def __repr__(self):
+        return '{}, {}'.format(self.senha, self.email)
+
+
+class LogAcesso(models.Model):
+    codigo = models.AutoField(primary_key=True)
+    codigoUsuario = models.IntegerField(null=False)
+    dataAcesso = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return '{}, {}, {}'.format(self.codigo, self.codigoUsuario, self.dataAcesso)
+
+    def __repr__(self):
+        return '{}, {}, {}'.format(self.codigo, self.codigoUsuario, self.dataAcesso)
+
+
 
 class Usuario(models.Model):
     codigo = models.AutoField(primary_key=True)
     nome = models.CharField(null=False, max_length=100)
     email = models.CharField(null=False, unique=True, max_length=50)
+
+    senha = models.CharField(null=False, max_length=255, default='vazio')
+    ativo = models.BooleanField(null=False, default=True)
+    logado = models.BooleanField(null=False, default=True)
 
     class Meta:
         db_table = "usuario"
@@ -14,13 +43,12 @@ class Usuario(models.Model):
         verbose_name_plural = "Usuarios"
 
     def __str__(self):
-        return '{}, {}, {}'.format(self.codigo, self.nome, self.email)
+        return '{}, {}, {}, {}, {},{}'.format(self.codigo, self.nome, self.email,
+                                              self.senha, self.ativo, self.logado)
 
     def __repr__(self):
-        return '{}, {}, {}'.format(self.codigo, self.nome, self.email)
-
-
-
+        return '{}, {}, {}, {}, {}, {}'.format(self.codigo, self.nome, self.email,
+                                               self.senha, self.ativo, self.logado)
 
 class Publicacao(models.Model):
 
@@ -30,7 +58,7 @@ class Publicacao(models.Model):
 
     usuario = models.ForeignKey(Usuario, related_name='publicacoes', on_delete=models.CASCADE)
 
-    reacaoes = models.ManyToManyField('Reacao', through='ReacaoPublicada')
+    reacoes = models.ManyToManyField('Reacao', through='ReacaoPublicada')
 
     class Meta:
         db_table = 'publicacao'
@@ -88,9 +116,6 @@ class Reacao(models.Model):
 
     def __repr__(self):
         return '{}, {}, {}'.format(self.codigo, self.tipo, self.descricao)
-
-
-
 
 
 class ReacaoPublicada(models.Model):

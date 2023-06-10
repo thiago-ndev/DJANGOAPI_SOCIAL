@@ -1,7 +1,16 @@
 from django.urls import path
 from .views import *
+from rest_framework_nested.routers import SimpleRouter
 
 app_name = 'publicacoes'
+
+router = SimpleRouter()
+
+router.register('usuarios', UsuarioViewset)
+router.register('publicacoes',PublicacaoViewset)
+router.register('comentarios',ComentarioViewset)
+router.register('reacao',ReacaoViewset)
+router.register('reacaopublicada',ReacaoPublicadaViewset)
 
 urlpatterns = [
     path('usuarios/', UsuariosAPIView.as_view(), name='usuarios'),

@@ -1,11 +1,15 @@
 from rest_framework import serializers
 from .models import *
 
-class PublicaSerializer(serializers.ModelSerializer):
+class Login(serializers.ModelSerializer):
     class Meta:
-        model = Publicacao
-        fields = ('codigo', 'texto', 'fotoUrl', 'usuario')
+        model = Login
+        fields = ('email', 'senha')
 
+class LoginAcessoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LogAcesso
+        fields = ('codigo', 'codigoUsuario', 'dataAcesso')
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +21,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         read_only_fields = ['publicacoes']
 
         #tudo dentro field é trado como entrada e saida de dados
-        fields = ('codigo', 'nome', 'email', 'publicacoes')
+        fields = ('codigo', 'nome', 'email', 'publicacoes', 'senha', 'logado', 'ativo')
 
         # definir os niveis de prioridades do serializador
         # tomar cuidado, pois isso pode virar uma consulta ciclica
@@ -28,6 +32,12 @@ class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentario
         fields = ('codigo', 'nome', 'comentario', 'dataComentario', 'ativo')
+
+class PublicaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publicacao
+        fields = ('codigo', 'texto', 'fotoUrl', 'usuario')
+
 
 class ReacaoSerializer(serializers.ModelSerializer):
     class Meta:
