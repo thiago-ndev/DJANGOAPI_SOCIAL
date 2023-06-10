@@ -13,3 +13,5 @@ token = Token.objects.create(user = user)
 
 
 
+# args são argumentos que são dinamicos
+# e os kwargos são dicionarios dinamicos, voce cria e passa qualquer coisa e ele aceita qualquer coisa dinamica
