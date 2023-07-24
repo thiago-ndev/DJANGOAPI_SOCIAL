@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import *
 
-class Login(serializers.ModelSerializer):
+class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Login
-        fields = ('email', 'senha')
+        fields = ('email', 'senha', 'plt')
 
 class LoginAcessoSerializer(serializers.ModelSerializer):
     class Meta:
